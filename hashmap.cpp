@@ -337,27 +337,23 @@ HashMap<K, M, H>& HashMap<K, M, H>::operator=(const HashMap<K, M, H>& rhs) {
 template <typename K, typename M, typename H>
 HashMap<K, M, H>::HashMap(HashMap<K, M, H>&& rhs) {
     // 'Steal' the resource!
-    _buckets_array = rhs._buckets_array;
+    _buckets_array = std::move(rhs._buckets_array);
     // Just Copy the Non-pointer fields
-    _size = rhs._size;
-    _hash_function = rhs._hash_function;
-
-    // Release the resources
-    rhs.clear();
+    _size = std::move(rhs._size);
+    _hash_function = std::move(rhs._hash_function);
 }
 
 // Move Assignment
 template <typename K, typename M, typename H>
 HashMap<K, M, H>& HashMap<K, M, H>::operator=(HashMap<K, M, H>&& rhs) {
     if (this != &rhs) {
+        // First release the resource held by this object
+        clear();
         // 'Steal' the resource!
-        _buckets_array = rhs._buckets_array;
+        _buckets_array = std::move(rhs._buckets_array);
         // Just Copy the Non-pointer fields
-        _size = rhs._size;
-        _hash_function = rhs._hash_function;
-
-        // Release the resources
-        rhs.clear();
+        _size = std::move(rhs._size);
+        _hash_function = std::move(rhs._hash_function);
     }
 
     return *this;
