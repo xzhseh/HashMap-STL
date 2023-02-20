@@ -71,7 +71,10 @@ template <typename K, typename M, typename H>
 void HashMap<K, M, H>::clear() {
     for (auto& curr : _buckets_array) {
         while (curr != nullptr) {
-            curr = curr->next;
+            auto next_node = curr->next;
+            // Clean the Memory used by the current node*
+            delete curr;
+            curr = next_node;
         }
     }
     _size = 0;
@@ -307,6 +310,8 @@ template <typename K, typename M, typename H>
 HashMap<K, M, H>& HashMap<K, M, H>::operator=(const HashMap<K, M, H>& rhs) {
     // Check for self assignment
     if (this != &rhs) {
+        // First Clean the resource used by the current object
+        clear();
         // First make a valid array
         _buckets_array = std::vector<node*>(rhs.bucket_count(), nullptr);
         // Make new copy of the _buckets_array
