@@ -101,6 +101,7 @@ typename HashMap<K, M, H>::node_pair HashMap<K, M, H>::find_node(const K& key) c
         prev = curr;
         curr = curr->next;
     }
+
     return {nullptr, nullptr}; // key not found at all.
 }
 
