@@ -82,6 +82,11 @@ std::set<KeyType> find_keys(const HashMap<KeyType, MappedTyped>& map) {
 void print_difference(const HashMap<string, int>& lecturer_record, const string& lecturer1, const string& lecturer2) {
     int year1 = lecturer_record.at(lecturer1);
     int year2 = lecturer_record.at(lecturer2);
+    // The following code shows the result of not overloading HashMap<>::at() for const object,
+    // But just mark it as const instead, will lead to disaster result!
+//    cout << "First year2: " << year2 << endl;
+//    lecturer_record.at(lecturer2) = 1000;
+//    cout << "Second year2: " << lecturer_record.at(lecturer2) << endl;
     if (year1 < year2) {
         cout << lecturer1 << " lectured first and " << year2 - year1 << " year(s) later, " << lecturer2 << " lectured" << endl;
     } else if (year1 > year2) {

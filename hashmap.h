@@ -545,7 +545,7 @@ private:
     *
     * Hint: on the assignment, you should NOT need to call this function.
     */
-    iterator make_iterator(node* curr) const;
+    iterator make_iterator(node* curr);
 
     /* Private member variables */
 

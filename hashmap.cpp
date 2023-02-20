@@ -154,7 +154,7 @@ size_t HashMap<K, M, H>::first_not_empty_bucket() const {
 }
 
 template <typename K, typename M, typename H>
-typename HashMap<K, M, H>::iterator HashMap<K, M, H>::make_iterator(node* curr) const {
+typename HashMap<K, M, H>::iterator HashMap<K, M, H>::make_iterator(node* curr) {
     if (curr == nullptr) {
         return {&_buckets_array, curr, bucket_count()};
     }
