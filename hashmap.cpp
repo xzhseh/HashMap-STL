@@ -185,6 +185,8 @@ bool HashMap<K, M, H>::erase(const K& key) {
     }
     size_t index = _hash_function(key) % bucket_count();
     (prev ? prev->next : _buckets_array[index]) = node_to_erase->next;
+    // Clean the memory used by the current node
+    delete node_to_erase;
     --_size;
     return true;
 }
@@ -235,6 +237,8 @@ std::vector<node*> new_buckets_array(new_bucket_count, nullptr);
             new_buckets_array[index] = temp;
         }
     }
+    // TODO: Fix the potential bug here
+    // std::move() apply to function?
     _buckets_array = std::move(new_buckets_array);
 }
 
