@@ -490,12 +490,12 @@ public:
     /*
      * Move Constructor for HashMap
      */
-    HashMap(const HashMap<K, M, H>&& rhs);
+    HashMap(HashMap<K, M, H>&& rhs);
 
     /*
      * Move Assignment Operator for HashMap
      */
-    HashMap<K, M, H>&& operator=(const HashMap<K, M, H>&& rhs);
+    HashMap<K, M, H>& operator=(HashMap<K, M, H>&& rhs);
 
 private:
     /*

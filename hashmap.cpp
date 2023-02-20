@@ -331,14 +331,32 @@ HashMap<K, M, H>& HashMap<K, M, H>::operator=(const HashMap<K, M, H>& rhs) {
 
 // Move Constructor
 template <typename K, typename M, typename H>
-HashMap<K, M, H>::HashMap(const HashMap<K, M, H>&& rhs) {
+HashMap<K, M, H>::HashMap(HashMap<K, M, H>&& rhs) {
+    // 'Steal' the resource!
+    _buckets_array = rhs._buckets_array;
+    // Just Copy the Non-pointer fields
+    _size = rhs._size;
+    _hash_function = rhs._hash_function;
 
+    // Release the resources
+    rhs.clear();
 }
 
 // Move Assignment
 template <typename K, typename M, typename H>
-HashMap<K, M, H>& HashMap<K, M, H>::operator=(const HashMap<K, M, H>&& rhs) {
+HashMap<K, M, H>& HashMap<K, M, H>::operator=(HashMap<K, M, H>&& rhs) {
+    if (this != &rhs) {
+        // 'Steal' the resource!
+        _buckets_array = rhs._buckets_array;
+        // Just Copy the Non-pointer fields
+        _size = rhs._size;
+        _hash_function = rhs._hash_function;
 
+        // Release the resources
+        rhs.clear();
+    }
+
+    return *this;
 }
 
 /* end student code */
