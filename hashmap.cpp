@@ -67,8 +67,14 @@ void HashMap<K, M, H>::clear() {
 }
 
 template <typename K, typename M, typename H>
-typename HashMap<K, M, H>::iterator HashMap<K, M, H>::find(const K& key) const {
+typename HashMap<K, M, H>::iterator HashMap<K, M, H>::find(const K& key) {
     return make_iterator(find_node(key).second);
+}
+
+template <typename K, typename M, typename H>
+typename HashMap<K, M, H>::const_iterator HashMap<K, M, H>::find(const K& key) const {
+    // The same trick as const begin() and const end()
+    return static_cast<const_iterator>(const_cast<HashMap<K, M, H>*>(this)->find(key));
 }
 
 template <typename K, typename M, typename H>
@@ -108,9 +114,11 @@ typename HashMap<K, M, H>::node_pair HashMap<K, M, H>::find_node(const K& key) c
 template <typename K, typename M, typename H>
 typename HashMap<K, M, H>::iterator HashMap<K, M, H>::begin() {
     size_t index = first_not_empty_bucket();
+
     if (index == bucket_count()) {
         return end();
     }
+
     return make_iterator(_buckets_array[index]);
 }
 
@@ -137,7 +145,7 @@ typename HashMap<K, M, H>::const_iterator HashMap<K, M, H>::end() const {
 
 template <typename K, typename M, typename H>
 size_t HashMap<K, M, H>::first_not_empty_bucket() const {
-    auto isNotNullptr = [ ](const auto& v){
+    auto isNotNullptr = [](const auto& v){
         return v != nullptr;
     };
 
@@ -146,7 +154,7 @@ size_t HashMap<K, M, H>::first_not_empty_bucket() const {
 }
 
 template <typename K, typename M, typename H>
-typename HashMap<K, M, H>::iterator HashMap<K, M, H>::make_iterator(node* curr) {
+typename HashMap<K, M, H>::iterator HashMap<K, M, H>::make_iterator(node* curr) const {
     if (curr == nullptr) {
         return {&_buckets_array, curr, bucket_count()};
     }

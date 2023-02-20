@@ -265,7 +265,13 @@ public:
      *
      * Complexity: O(1) amortized average case, O(N) worst case, N = number of elements
      */
-    iterator find(const K& key) const;
+    iterator find(const K& key);
+
+    /*
+     * The const overloaded version of find, which returns a const_iterator
+     * instead of iterator when called by a const HashMap Object
+     */
+    const_iterator find(const K& key) const;
 
     /*
     * Inserts the K/M pair into the HashMap, if the key does not already exist.
@@ -539,7 +545,7 @@ private:
     *
     * Hint: on the assignment, you should NOT need to call this function.
     */
-    iterator make_iterator(node* curr);
+    iterator make_iterator(node* curr) const;
 
     /* Private member variables */
 
