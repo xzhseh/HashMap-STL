@@ -41,11 +41,22 @@ inline size_t HashMap<K, M, H>::bucket_count() const {
 }
 
 template <typename K, typename M, typename H>
-M& HashMap<K, M, H>::at(const K& key) const {
+M& HashMap<K, M, H>::at(const K& key) {
     auto [prev, node_found] = find_node(key);
 
     if (node_found == nullptr) {
         throw std::out_of_range("HashMap<K, M, H>::at: key not found");
+    }
+
+    return node_found->value.second;
+}
+
+template <typename K, typename M, typename H>
+M HashMap<K, M, H>::at(const K& key) const {
+    auto [prev, node_found] = find_node(key);
+
+    if (node_found == nullptr) {
+        throw std::out_of_range("HashMap<K, M, H>::at: key not found(const version)");
     }
 
     return node_found->value.second;

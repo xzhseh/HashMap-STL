@@ -232,7 +232,14 @@ public:
     * if a key is not found. Instead, it will create a K/M pair for that key with a default
     * mapped value. This function is also not const-correct, which you will fix in milestone 2.
     */
-    M& at(const K& key) const;
+    M& at(const K& key);
+
+    /*
+     * Const version of at().
+     * Return a copy instead of a l-value reference, preventing user code to change the content
+     * of the provided const HashMap object
+     */
+    M at(const K& key) const;
 
     /*
     * Removes all K/M pairs the HashMap.
