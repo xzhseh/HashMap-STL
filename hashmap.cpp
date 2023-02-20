@@ -279,12 +279,29 @@ std::ostream& operator<<(std::ostream& os, const HashMap<K, M, H>& rhs) {
 // Copy Constructor
 template <typename K, typename M, typename H>
 HashMap<K, M, H>::HashMap(const HashMap<K, M, H>& rhs) {
+    // First make a valid array
+    _buckets_array = std::vector<node*>(rhs.bucket_count(), nullptr);
+    // Make new copy of the _buckets_array
+    for (size_t i = 0; i < _buckets_array.size(); ++i) {
+        node* cur_node = rhs._buckets_array[i];
+        node* this_node = _buckets_array[i];
 
+        this_node = new node(cur_node->value);
+        cur_node = cur_node->next;
+
+        while (cur_node != nullptr) {
+            this_node->next = new node(cur_node->value);
+            cur_node = cur_node->next;
+        }
+    }
+
+    _size = rhs._size;
+    _hash_function = rhs._hash_function;
 }
 
 // Copy Assignment
 template <typename K, typename M, typename H>
-HashMap<K, M, H>& HashMap<K, M, H>::operator=(const HashMap<K, M, H> &rhs) {
+HashMap<K, M, H>& HashMap<K, M, H>::operator=(const HashMap<K, M, H>& rhs) {
 
 }
 
@@ -296,7 +313,7 @@ HashMap<K, M, H>::HashMap(const HashMap<K, M, H>&& rhs) {
 
 // Move Assignment
 template <typename K, typename M, typename H>
-HashMap<K, M, H>& HashMap<K, M, H>::operator=(const HashMap<K, M, H> &rhs) {
+HashMap<K, M, H>& HashMap<K, M, H>::operator=(const HashMap<K, M, H>&& rhs) {
 
 }
 
