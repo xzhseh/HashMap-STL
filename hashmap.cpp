@@ -21,36 +21,38 @@ HashMap<K, M, H>::~HashMap() {
 }
 
 template <typename K, typename M, typename H>
-inline size_t HashMap<K, M, H>::size() {
+inline size_t HashMap<K, M, H>::size() const {
     return _size;
 }
 
 template <typename K, typename M, typename H>
-inline bool HashMap<K, M, H>::empty() {
+inline bool HashMap<K, M, H>::empty() const {
     return size() == 0;
 }
 
 template <typename K, typename M, typename H>
-inline float HashMap<K, M, H>::load_factor() {
-    return static_cast<float>(size())/bucket_count();
-};
+inline float HashMap<K, M, H>::load_factor() const {
+    return static_cast<float>(size()) / bucket_count();
+}
 
 template <typename K, typename M, typename H>
-inline size_t HashMap<K, M, H>::bucket_count() const{
+inline size_t HashMap<K, M, H>::bucket_count() const {
     return _buckets_array.size();
-};
+}
 
 template <typename K, typename M, typename H>
-M& HashMap<K, M, H>::at(const K& key) {
+M& HashMap<K, M, H>::at(const K& key) const {
     auto [prev, node_found] = find_node(key);
-            if (node_found == nullptr) {
+
+    if (node_found == nullptr) {
         throw std::out_of_range("HashMap<K, M, H>::at: key not found");
     }
+
     return node_found->value.second;
 }
 
 template <typename K, typename M, typename H>
-bool HashMap<K, M, H>::contains(const K& key) {
+bool HashMap<K, M, H>::contains(const K& key) const {
     return find_node(key).second != nullptr;
 }
 
@@ -65,7 +67,7 @@ void HashMap<K, M, H>::clear() {
 }
 
 template <typename K, typename M, typename H>
-typename HashMap<K, M, H>::iterator HashMap<K, M, H>::find(const K& key) {
+typename HashMap<K, M, H>::iterator HashMap<K, M, H>::find(const K& key) const {
     return make_iterator(find_node(key).second);
 }
 
@@ -164,7 +166,7 @@ typename HashMap<K, M, H>::iterator HashMap<K, M, H>::erase(typename HashMap<K, 
 }
 
 template <typename K, typename M, typename H>
-    void HashMap<K, M, H>::debug() {
+    void HashMap<K, M, H>::debug() const {
     std::cout << std::setw(30) << std::setfill('-') << '\n' << std::setfill(' ')
           << "Printing debug information for your HashMap implementation\n"
           << "Size: " << size() << std::setw(15) << std::right
@@ -187,7 +189,7 @@ template <typename K, typename M, typename H>
 
 template <typename K, typename M, typename H>
 void HashMap<K, M, H>::rehash(size_t new_bucket_count) {
-if (new_bucket_count == 0) {
+    if (new_bucket_count == 0) {
     throw std::out_of_range("HashMap<K, M, H>::rehash: new_bucket_count must be positive.");
 }
 
