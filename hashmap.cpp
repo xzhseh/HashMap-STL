@@ -221,24 +221,29 @@ template <typename K, typename M, typename H>
 
 template <typename K, typename M, typename H>
 void HashMap<K, M, H>::rehash(size_t new_bucket_count) {
+    std::cout << "Hello this is the beginning of rehash()" << std::endl;
     if (new_bucket_count == 0) {
-    throw std::out_of_range("HashMap<K, M, H>::rehash: new_bucket_count must be positive.");
-}
+        throw std::out_of_range("HashMap<K, M, H>::rehash: new_bucket_count must be positive.");
+    }
 
-std::vector<node*> new_buckets_array(new_bucket_count, nullptr);
+    std::vector<node*> new_buckets_array(new_bucket_count, nullptr);
+
     for (auto& curr : _buckets_array) { // short answer question is asking about this 'curr'
         while (curr != nullptr) {
             const auto& [key, mapped] = curr->value;
             size_t index = _hash_function(key) % new_bucket_count;
 
             auto temp = curr;
+            // Update curr
             curr = temp->next;
+            // The core part of rehash()
+            // Can think this process as adding a new node to the "front"
+            // of a linked-list
             temp->next = new_buckets_array[index];
             new_buckets_array[index] = temp;
         }
     }
-    // TODO: Fix the potential bug here
-    // std::move() apply to function?
+
     _buckets_array = std::move(new_buckets_array);
 }
 
