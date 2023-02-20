@@ -375,7 +375,7 @@ public:
      *      while (iter != map.end()) {...}
      */
     iterator end();
-    
+
     /*
      * Returns a const_iterator to the first element.
      * This overload is used when the HashMap is const.

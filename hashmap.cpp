@@ -130,6 +130,12 @@ typename HashMap<K, M, H>::iterator HashMap<K, M, H>::end() {
 }
 
 template <typename K, typename M, typename H>
+typename HashMap<K, M, H>::const_iterator HashMap<K, M, H>::end() const {
+    // Using the same trick as for begin() const interface
+    return static_cast<const_iterator>(const_cast<HashMap<K, M, H>*>(this)->end());
+}
+
+template <typename K, typename M, typename H>
 size_t HashMap<K, M, H>::first_not_empty_bucket() const {
     auto isNotNullptr = [ ](const auto& v){
         return v != nullptr;
@@ -144,6 +150,7 @@ typename HashMap<K, M, H>::iterator HashMap<K, M, H>::make_iterator(node* curr) 
     if (curr == nullptr) {
         return {&_buckets_array, curr, bucket_count()};
     }
+
     size_t index = _hash_function(curr->value.first) % bucket_count();
     return {&_buckets_array, curr, index};
 }
