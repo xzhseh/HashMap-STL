@@ -292,6 +292,7 @@ HashMap<K, M, H>::HashMap(const HashMap<K, M, H>& rhs) {
         while (cur_node != nullptr) {
             this_node->next = new node(cur_node->value);
             cur_node = cur_node->next;
+            this_node = this_node->next;
         }
     }
 
