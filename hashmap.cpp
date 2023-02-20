@@ -283,10 +283,12 @@ HashMap<K, M, H>::HashMap(const HashMap<K, M, H>& rhs) {
     _buckets_array = std::vector<node*>(rhs.bucket_count(), nullptr);
     // Make new copy of the _buckets_array
     for (size_t i = 0; i < _buckets_array.size(); ++i) {
-        node* cur_node = rhs._buckets_array[i];
-        node* this_node = _buckets_array[i];
+        if (rhs._buckets_array[i] == nullptr) { continue; }
 
-        this_node = new node(cur_node->value);
+        node* cur_node = rhs._buckets_array[i];
+        _buckets_array[i] = new node(cur_node->value);
+
+        node* this_node = _buckets_array[i];
         cur_node = cur_node->next;
 
         while (cur_node != nullptr) {
@@ -309,10 +311,12 @@ HashMap<K, M, H>& HashMap<K, M, H>::operator=(const HashMap<K, M, H>& rhs) {
         _buckets_array = std::vector<node*>(rhs.bucket_count(), nullptr);
         // Make new copy of the _buckets_array
         for (size_t i = 0; i < _buckets_array.size(); ++i) {
-            node* cur_node = rhs._buckets_array[i];
-            node* this_node = _buckets_array[i];
+            if (rhs._buckets_array[i] == nullptr) { continue; }
 
-            this_node = new node(cur_node->value);
+            node* cur_node = rhs._buckets_array[i];
+            _buckets_array[i] = new node(cur_node->value);
+
+            node* this_node = _buckets_array[i];
             cur_node = cur_node->next;
 
             while (cur_node != nullptr) {
