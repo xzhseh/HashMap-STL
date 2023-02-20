@@ -304,7 +304,7 @@ HashMap<K, M, H>::HashMap(const HashMap<K, M, H>& rhs) {
 template <typename K, typename M, typename H>
 HashMap<K, M, H>& HashMap<K, M, H>::operator=(const HashMap<K, M, H>& rhs) {
     // Check for self assignment
-    if (this != rhs) {
+    if (this != &rhs) {
         // First make a valid array
         _buckets_array = std::vector<node*>(rhs.bucket_count(), nullptr);
         // Make new copy of the _buckets_array
