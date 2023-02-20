@@ -204,7 +204,7 @@ HashMapIterator<Map, IsConst>& HashMapIterator<Map, IsConst>::operator++() {
             }
         }
     }
-    
+
     return *this;
 }
 
